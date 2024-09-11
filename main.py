@@ -4,8 +4,6 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 from google.oauth2 import service_account
-from fastapi import FastAPI, HTTPException
-from google.cloud import bigquery
 
 app = FastAPI()
 
@@ -93,35 +91,3 @@ df = pd.DataFrame(data)
 project_id = "voltaic-circuit-435323-i4"
 table_id = "teste.noticias"
 df.to_gbq(table_id, project_id=project_id, if_exists='replace')
-
-def search_keywords(keywords):
-    # Criando uma instância do cliente BigQuery
-    client = bigquery.Client()
-
-    # Construindo a query para buscar os dados
-    query = f"""
-        SELECT *
-        FROM teste.noticias
-        WHERE title LIKE '%{keywords}%' OR content LIKE '%{keywords}%'
-    """
-
-    # Executando a query
-    query_job = client.query(query)
-    results = query_job.result()
-
-    # Transformando os resultados em um dicionário
-    data = []
-    for row in results:
-        data.append(dict(row))
-
-    return data
-
-# Rota para buscar palavras-chave no BigQuery
-@app.get("/search/{keywords}")
-def search(keywords: str):
-    data = search_keywords(keywords)
-    
-    if len(data) == 0:
-        raise HTTPException(status_code=404, detail="Nenhum resultado encontrado")
-
-    return data
