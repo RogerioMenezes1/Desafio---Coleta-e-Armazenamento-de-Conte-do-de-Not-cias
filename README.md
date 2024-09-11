@@ -13,7 +13,7 @@ pip install fastapi pydantic beautifulsoup4 requests pandas google-auth google-c
 
 Uso:
 1. Importe as dependências necessárias:
-   from fastapi import FastAPI
+  from fastapi import FastAPI
   from pydantic import BaseModel
   from bs4 import BeautifulSoup
   import requests
@@ -30,41 +30,41 @@ Uso:
    
 4. Implemente a função para extrair o conteúdo limpo de um URL fornecido:
   def get_clean_content(url):
-    # Obtenha o conteúdo da resposta
+    Obtenha o conteúdo da resposta
     response = requests.get(url)
     content = response.text
     soup = BeautifulSoup(content, 'html.parser')
 
-    # Encontre todos os elementos com a div <div data-testid="edinburgh-card">
+    Encontre todos os elementos com a div <div data-testid="edinburgh-card">
     elements = soup.find_all("div", {"data-testid": "edinburgh-card"})
 
     result = []
     for element in elements:
-        # Obtenha o texto da tag <h2> dentro da div
+        Obtenha o texto da tag <h2> dentro da div
         h2_text = element.find("h2").get_text()
 
-        # Encontre a tag de parágrafo (<p>) dentro da div
+        Encontre a tag de parágrafo (<p>) dentro da div
         p_tag = element.find("p")
 
-        # Verifique se uma tag de parágrafo foi encontrada
+        Verifique se uma tag de parágrafo foi encontrada
         if p_tag:
             p_text = p_tag.get_text()
         else:
             p_text = None
 
-        # Encontre o elemento <span> com a última atualização
+        Encontre o elemento <span> com a última atualização
         last_updated_element = element.find("span", {"data-testid": "card-metadata-lastupdated"})
 
-        # Verifique se o elemento <span> com a última atualização foi encontrado
+        Verifique se o elemento <span> com a última atualização foi encontrado
         if last_updated_element:
             last_updated_text = last_updated_element.get_text()
         else:
             last_updated_text = None
 
-        # Encontre o elemento <span> com o tópico da notícia
+        Encontre o elemento <span> com o tópico da notícia
         topic_element = element.find("span", {"data-testid": "card-metadata-tag"})
 
-        # Verifique se o elemento <span> com o tópico da notícia foi encontrado
+        Verifique se o elemento <span> com o tópico da notícia foi encontrado
         if topic_element:
             topic_text = topic_element.get_text()
         else:
