@@ -40,7 +40,7 @@ Uso:
 
     result = []
     for element in elements:
-        Obtenha o texto da tag <h2> dentro da div
+        Obtenha o texto da tag h2 dentro da div
         h2_text = element.find("h2").get_text()
 
         Encontre a tag de parágrafo (<p>) dentro da div
